@@ -6,28 +6,19 @@ from . import models, schemas
 def create_application(db: Session, application: schemas.ApplicationCreate):
     """
     Create a new job application.
-    
-    Args:
-        db: Database session
-        application: Application data to create
-    
-    Returns:
-        Created application object
+    Maps dateApplied (frontend) to date_applied (database).
     """
-    # Convert Pydantic schema to SQLAlchemy model
     db_application = models.Application(
-        company_name=application.company_name,
+        company=application.company,
         role=application.role,
         status=application.status,
-        applied_date=application.applied_date,
-        interview_date=application.interview_date,
+        date_applied=application.dateApplied,  # Map frontend field to database column
         notes=application.notes
     )
     
-    # Add to database and commit
     db.add(db_application)
     db.commit()
-    db.refresh(db_application)  # Get the created ID and timestamps
+    db.refresh(db_application)
     
     return db_application
 
@@ -35,14 +26,6 @@ def create_application(db: Session, application: schemas.ApplicationCreate):
 def get_applications(db: Session, skip: int = 0, limit: int = 100):
     """
     Get all applications with pagination.
-    
-    Args:
-        db: Database session
-        skip: Number of records to skip (for pagination)
-        limit: Maximum number of records to return
-    
-    Returns:
-        List of applications
     """
     return db.query(models.Application).offset(skip).limit(limit).all()
 
@@ -50,13 +33,6 @@ def get_applications(db: Session, skip: int = 0, limit: int = 100):
 def get_application(db: Session, application_id: int):
     """
     Get a specific application by ID.
-    
-    Args:
-        db: Database session
-        application_id: ID of the application to retrieve
-    
-    Returns:
-        Application object or None if not found
     """
     return db.query(models.Application).filter(
         models.Application.id == application_id
@@ -70,14 +46,7 @@ def update_application(
 ):
     """
     Update an existing application.
-    
-    Args:
-        db: Database session
-        application_id: ID of the application to update
-        application_update: New data for the application
-    
-    Returns:
-        Updated application object or None if not found
+    Maps dateApplied (frontend) to date_applied (database) if provided.
     """
     # Get the existing application
     db_application = get_application(db, application_id)
@@ -86,10 +55,14 @@ def update_application(
     
     # Update only the fields that were provided
     update_data = application_update.model_dump(exclude_unset=True)
+    
+    # Map dateApplied to date_applied for database
+    if 'dateApplied' in update_data:
+        update_data['date_applied'] = update_data.pop('dateApplied')
+    
     for field, value in update_data.items():
         setattr(db_application, field, value)
     
-    # Commit the changes
     db.commit()
     db.refresh(db_application)
     
@@ -99,20 +72,11 @@ def update_application(
 def delete_application(db: Session, application_id: int):
     """
     Delete an application by ID.
-    
-    Args:
-        db: Database session
-        application_id: ID of the application to delete
-    
-    Returns:
-        True if deleted, False if not found
     """
-    # Get the existing application
     db_application = get_application(db, application_id)
     if db_application is None:
         return False
     
-    # Delete from database
     db.delete(db_application)
     db.commit()
     

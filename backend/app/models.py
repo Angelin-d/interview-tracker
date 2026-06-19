@@ -5,27 +5,22 @@ from .database import Base
 class Application(Base):
     """
     SQLAlchemy model for job applications.
-    This defines the database table structure.
+    Maps to the 'applications' table in PostgreSQL.
     """
     __tablename__ = "applications"
     
-    # Primary key
+    # Primary key - auto-generated integer
     id = Column(Integer, primary_key=True, index=True)
     
-    # Application details
-    company_name = Column(String(255), nullable=False, index=True)
+    # Application fields - match frontend expectations
+    company = Column(String(255), nullable=False, index=True)
     role = Column(String(255), nullable=False)
     status = Column(String(50), nullable=False, default="Applied")
-    
-    # Dates
-    applied_date = Column(Date, nullable=False)
-    interview_date = Column(Date, nullable=True)
-    
-    # Additional information
+    date_applied = Column(Date, nullable=False)  # Stored as DATE in PostgreSQL
     notes = Column(Text, nullable=True)
     
-    # Timestamps
+    # Timestamp
     created_at = Column(DateTime(timezone=True), server_default=func.now())
     
     def __repr__(self):
-        return f"<Application(id={self.id}, company='{self.company_name}', role='{self.role}')>"
+        return f"<Application(id={self.id}, company='{self.company}', role='{self.role}')>"

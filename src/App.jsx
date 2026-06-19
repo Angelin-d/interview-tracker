@@ -4,6 +4,8 @@ import Navbar             from "./components/Navbar";
 import Toast              from "./components/Toast";
 import AppRouter          from "./routes/AppRouter";
 import api                from "./utils/api";
+import { getApplications, createApplication, updateApplication, deleteApplication } from './utils/api';
+
 
 export default function App() {
   const navigate = useNavigate();
@@ -23,7 +25,7 @@ export default function App() {
     try {
       setLoading(true);
       setError(null);
-      const data = await api.getAll();
+      const data = await getApplications();  
       setApplications(data);
     } catch (err) {
       setError("Could not load applications.");
@@ -39,7 +41,7 @@ export default function App() {
   const handleAdd = async (formData) => {
     setSaving(true);
     try {
-      const newApp = await api.create(formData);
+      const newApp = await createApplication(formData);
       setApplications((prev) => [...prev, newApp]);
       showToast(`✓ Added ${formData.company}`);
       navigate("/applications");
@@ -58,7 +60,7 @@ export default function App() {
   const handleUpdate = async (formData) => {
     setSaving(true);
     try {
-      const updated = await api.update(editingApp.id, formData);
+      const updated = await updateApplication(editingApp.id, formData);
       setApplications((prev) =>
         prev.map((a) => (a.id === updated.id ? updated : a))
       );
@@ -75,7 +77,7 @@ export default function App() {
     const app = applications.find((a) => a.id === id);
     if (!window.confirm(`Delete ${app?.company}?`)) return;
     try {
-      await api.remove(id);
+      await deleteApplication(id); 
       setApplications((prev) => prev.filter((a) => a.id !== id));
       showToast(`Deleted ${app?.company}`);
     } catch {

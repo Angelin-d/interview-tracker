@@ -1,4 +1,4 @@
-import os
+﻿import os
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
@@ -18,5 +18,5 @@ class Settings:
     # API settings
     API_V1_PREFIX: str = "/api/v1"
 
-# Create a single instance of settings to use throughout the app
+# Create a single instance of settings
 settings = Settings()
