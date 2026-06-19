@@ -9,7 +9,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Get database URL from .env
-DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:Angelin%40123@localhost:5432/interview_tracker")
+DATABASE_URL = os.getenv("DATABASE_URL", "postgresql://postgres:your_password@localhost:5432/interview_tracker")
 
 print("=" * 60)
 print("Setting up Tech Interview Tracker Database")
