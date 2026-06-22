@@ -65,10 +65,10 @@ const ConnectionTest = () => {
           🔄 Retry Connection
         </button>
         <p className="text-sm text-gray-500 mt-2">
-          Backend: http://localhost:8000 | Frontend: http://localhost:5173
+          Backend: https://interview-tracker-api-m3rq.onrender.com | Frontend: http://localhost:5173
         </p>
         <p className="text-sm text-gray-500">
-          API Endpoint: http://localhost:8000/api/v1/applications
+          API Endpoint: https://interview-tracker-api-m3rq.onrender.com/api/v1/applications
         </p>
       </div>
     </div>
