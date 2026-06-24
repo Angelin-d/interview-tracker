@@ -93,7 +93,7 @@ export default function Dashboard({ applications }) {
           {recentApps.length === 0 ? (
             <div className="text-center py-10 text-slate-500 bg-slate-800
               rounded-xl border border-slate-700">
-              No applications yet.{" "}
+              No job applications yet.{" "}
               <button
                 onClick={() => navigate("/applications/new")}
                 className="text-indigo-400 underline">

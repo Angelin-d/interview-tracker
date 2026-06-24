@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://interview-tracker-api-m3rq.onrender.com/api/v1',
+  baseURL: 'http://56.228.36.19:8000/api/v1',
   headers: {
     'Content-Type': 'application/json',
   },
@@ -46,6 +46,7 @@ export const deleteApplication = async (id) => {
     throw error;
   }
 };
+
 
 
 

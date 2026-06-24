@@ -22,7 +22,7 @@ export default function Applications({ applications, onEdit, onDelete, loading }
       {/* Header */}
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-white">Applications</h1>
+          <h1 className="text-2xl font-bold text-white">Job Applications</h1>
           <p className="text-slate-400 text-sm mt-1">
             {applications.length} total · {filtered.length} shown
           </p>

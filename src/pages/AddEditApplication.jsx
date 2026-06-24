@@ -61,7 +61,7 @@ export default function AddEditApplication({ editingApp, onSave, saving }) {
     <div className="max-w-2xl mx-auto px-4 py-8">
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-white">
-          {isEditing ? "Edit Application" : "Add Application"}
+          {isEditing ? "Edit Job Application" : "Add Job Application"}
         </h1>
         <p className="text-slate-400 text-sm mt-1">
           {isEditing
@@ -133,7 +133,7 @@ export default function AddEditApplication({ editingApp, onSave, saving }) {
             className="flex-1 bg-indigo-600 hover:bg-indigo-500
               disabled:opacity-50 disabled:cursor-not-allowed
               text-white font-semibold text-sm py-2.5 rounded-lg transition-colors">
-            {saving ? "Saving..." : isEditing ? "Save Changes" : "Add Application"}
+            {saving ? "Saving..." : isEditing ? "Save Changes" : "Add Job Application"}
           </button>
           <button onClick={() => navigate("/applications")}
             className="px-5 py-2.5 rounded-lg border border-slate-600

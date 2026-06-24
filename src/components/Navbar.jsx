@@ -11,7 +11,7 @@ export default function Navbar() {
 
   const links = [
     { path: "/dashboard",        label: "Dashboard"        },
-    { path: "/applications",     label: "Applications"     },
+    { path: "/applications",     label: "Job Applications"     },
     { path: "/applications/new", label: "+ Add Application"},
   ];
 
