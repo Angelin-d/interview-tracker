@@ -6,7 +6,7 @@ import os
 import sys
 
 # Add the app directory to the path
-sys.path.append(os.path.dirname(os.path.dirname(__file__)))
+sys.path.append(os.path.dirname(os.path.dirname(os.path.dirname(__file__))))
 
 # Import the models and database config
 from app.database import Base
@@ -16,8 +16,8 @@ from app.config import settings
 # This is the Alembic Config object
 config = context.config
 
-# Override the database URL from settings
-config.set_main_option('sqlalchemy.url', settings.DATABASE_URL)
+# ✅ Get the database URL directly from settings (bypass interpolation)
+DATABASE_URL = settings.DATABASE_URL
 
 # Interpret the config file for Python logging
 if config.config_file_name is not None:
@@ -27,9 +27,10 @@ if config.config_file_name is not None:
 target_metadata = Base.metadata
 
 def run_migrations_offline():
-    url = config.get_main_option("sqlalchemy.url")
+    """Run migrations in 'offline' mode."""
+    # ✅ Use the DATABASE_URL directly
     context.configure(
-        url=url,
+        url=DATABASE_URL,
         target_metadata=target_metadata,
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},
@@ -39,11 +40,10 @@ def run_migrations_offline():
         context.run_migrations()
 
 def run_migrations_online():
-    connectable = engine_from_config(
-        config.get_section(config.config_ini_section),
-        prefix="sqlalchemy.",
-        poolclass=pool.NullPool,
-    )
+    """Run migrations in 'online' mode."""
+    # ✅ Create engine directly with DATABASE_URL
+    from sqlalchemy import create_engine
+    connectable = create_engine(DATABASE_URL, poolclass=pool.NullPool)
 
     with connectable.connect() as connection:
         context.configure(
